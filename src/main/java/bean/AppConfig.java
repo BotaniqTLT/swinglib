@@ -12,7 +12,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("ru.botaniqtlt.libs.dao")
+@ComponentScan({"ru.botaniqtlt.libs.dao", "DAO"})
 @PropertySource("classpath:database.properties")
 public class AppConfig {
 
@@ -38,5 +38,7 @@ public class AppConfig {
     JdbcTemplate jdbcTemplate(DataSource dataSource){
         return new JdbcTemplate(dataSource);
     }
+
+
 
 }

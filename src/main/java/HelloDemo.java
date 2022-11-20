@@ -6,24 +6,32 @@ import DTO.Container;
 import DTO.MapComboBoxModel;
 import DTO.Person;
 import bean.AppConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import ru.botaniqtlt.libs.DAO.SearchDAO;
 import ru.botaniqtlt.libs.DAO.SelectDAO;
+//import ru.botaniqtlt.libs.DAO.SelectDAO;
 
-import javax.persistence.Table;
 import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class HelloDemo extends JFrame {
 
-//    private  SearchDAO searchDAO;
+//    @Autowired
+//    private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private SearchDAO searchDAO;
+
+    @Autowired
     private SelectDAO selectDAO;
 
     private JPanel panelMain;
@@ -83,6 +91,8 @@ public class HelloDemo extends JFrame {
         MapComboBoxModel<Integer, String> cmb = new MapComboBoxModel<>(map);
         comboBox1.setModel(cmb);
         List<Person> person = testDAO.getPerson();
+
+        person=person;
 
         this.addRowJTable(person);
 

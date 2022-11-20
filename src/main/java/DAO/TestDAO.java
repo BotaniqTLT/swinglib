@@ -14,6 +14,7 @@ import java.util.List;
 public class TestDAO {
 
     public static final String SELECT_ID_NAME_AGE = "SELECT id, name, age FROM person";
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 

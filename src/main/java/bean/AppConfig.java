@@ -1,5 +1,6 @@
 package bean;
 
+import DAO.TestDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import ru.botaniqtlt.libs.DAO.SelectDAO;
 
 import javax.sql.DataSource;
 
@@ -35,10 +37,18 @@ public class AppConfig {
     }
 
     @Bean
-    JdbcTemplate jdbcTemplate(DataSource dataSource){
+    JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 
+    @Bean
+    SelectDAO selectDAO() {
+        return new SelectDAO();
+    }
 
+    @Bean
+    TestDAO testDAO(){
+        return  new TestDAO();
+    }
 
 }

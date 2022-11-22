@@ -8,7 +8,6 @@ import DTO.Person;
 import bean.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
 import ru.botaniqtlt.libs.DAO.SearchDAO;
 import ru.botaniqtlt.libs.DAO.SelectDAO;
 //import ru.botaniqtlt.libs.DAO.SelectDAO;
@@ -17,6 +16,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -41,11 +43,14 @@ public class HelloDemo extends JFrame {
     private JComboBox comboBox1;
     private JButton button2;
     private JButton button1;
+    private JTextArea textData;
+    private JButton saveButton;
+    private JFileChooser fileChooser;
 
     public HelloDemo(SelectDAO selectDAO, TestDAO testDAO) {
         this.selectDAO = selectDAO;
 
-        button1.addActionListener(this::onClick);
+//        button1.addActionListener(this::onClick);
         TablePerson.getTableHeader().setVisible(true);
         TablePerson.getTableHeader().setColumnModel(new MyHeaderModel("FirstName", "SecondName", "Score"));
 
@@ -54,8 +59,6 @@ public class HelloDemo extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 List<Person> person = testDAO.getPerson();
-
-
 
 
                 //JTable variable name is jTable1_info....
@@ -78,8 +81,6 @@ public class HelloDemo extends JFrame {
         map.put(3, "Пыжился");
 
 
-
-
 //        ArrayList<Container<Integer, String>> tempArray = new ArrayList<>();
 //        tempArray.add(new Container<>(null, ""));
 //        for (Map.Entry<Integer, String> entry : map.entrySet()) {
@@ -92,13 +93,32 @@ public class HelloDemo extends JFrame {
         comboBox1.setModel(cmb);
         List<Person> person = testDAO.getPerson();
 
-        person=person;
+        person = person;
 
         this.addRowJTable(person);
 
+        saveButton.addActionListener((a) -> {
+            JFileChooser fc = new JFileChooser();
+            fc.setSelectedFile(new File("fileToSave.txt"));
+            fc.showSaveDialog(this);
+
+
+            File f = fc.getSelectedFile();
 
 
 
+
+            try {
+                FileWriter fw = new FileWriter(f);
+                String text = textData.getText();
+
+                fw.write(text);
+                fw.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
 
         button2.addActionListener((a) -> {
@@ -109,6 +129,7 @@ public class HelloDemo extends JFrame {
         });
 
     }
+
     private void onClick(ActionEvent e) {
         java.util.List<MyData> myDataList = Arrays.asList(
                 new MyData("first1", "second1", randomScore()),
@@ -128,24 +149,22 @@ public class HelloDemo extends JFrame {
     public void addRowJTable(List<Person> person) {
 
 
-
-        DefaultTableModel model= (DefaultTableModel) TablePerson.getModel();
+        DefaultTableModel model = (DefaultTableModel) TablePerson.getModel();
 
 
 //        Object  rowData1[] = new Object[3];
 
         for (int i = 0; i < person.size(); i++) {
-            Object  rowData1[] = new Object[3];
-            rowData1[0]= person.get(i).getId();
-            rowData1[1]= person.get(i).getAge();
-            rowData1[2]= person.get(i).getName();
+            Object rowData1[] = new Object[3];
+            rowData1[0] = person.get(i).getId();
+            rowData1[1] = person.get(i).getAge();
+            rowData1[2] = person.get(i).getName();
             model.addRow(rowData1);
 
         }
 
         TablePerson.getTableHeader().setVisible(true);
         TablePerson.getTableHeader().setColumnModel(new MyHeaderModel("FirstName", "SecondName", "Score"));
-
 
 
     }
